@@ -15,6 +15,8 @@ var d;
 
 var playerTurn = true;
 
+var gameOver = false;
+
 
 function setup() {
     createCanvas(1700, 800);
@@ -31,11 +33,6 @@ function setup() {
             grid[i][j] = new c4piece(i, j, d);
         }
     }
-
-   
-   
-
-
 }
 
 
@@ -49,12 +46,14 @@ function draw() {
         }
     }
 
-randomComputer();
+    
 
 }
 
 
 function mousePressed() {
+
+    if(!gameOver){
 
     if (playerTurn){
 
@@ -78,7 +77,14 @@ function mousePressed() {
                 }
             }
         }
-    }   
+    }
+    checkWin();
+    randomComputer(); 
+    checkWin();
+}
+else{
+    alert('The game is over')
+}
 
 }
 
@@ -113,4 +119,68 @@ function randomComputer(){
         
 
     }
+}
+
+function checkWin(){
+
+    //Vertical connect4
+    for (let i = 0; i < cols; i++) {
+        for (let j = 0; j < rows -3; j++) {
+             
+
+            if(grid[i][j].red && grid[i][j+1].red && grid[i][j+2].red && grid[i][j+3].red) {
+                console.log('red wins');
+                gameOver = true;
+            }
+            if(grid[i][j].black && grid[i][j+1].black && grid[i][j+2].black && grid[i][j+3].black) {
+                console.log('black wins');
+                gameOver = true;
+            }
+        }
+    }
+
+    //Horizontal connect4
+    for (let i = 0; i < cols-3; i++) {
+        for (let j = 0; j < rows; j++) {
+             
+
+            if(grid[i][j].red && grid[i+1][j].red && grid[i+2][j].red && grid[i+3][j].red) {
+                console.log('red wins');
+                gameOver = true;
+            }
+            else if(grid[i][j].black && grid[i+1][j].black && grid[i+2][j].black && grid[i+3][j].black) {
+                console.log('black wins');
+                gameOver = true;
+            }
+        }
+    }
+
+    //Diagonal connect4 (1)
+    for (let i = 0; i < cols-3; i++) {
+        for (let j = 0; j < rows-3; j++) {
+             
+
+            if(grid[i][j].red && grid[i+1][j+1].red && grid[i+2][j+2].red && grid[i+3][j+3].red) {
+                console.log('red wins');
+                gameOver = true;
+            }
+            else if(grid[i][j].black && grid[i+1][j+1].black && grid[i+2][j+2].black && grid[i+3][j+3].black) {
+                console.log('black wins');
+                gameOver = true;
+            }
+
+            else if(grid[i][j+3].red && grid[i+1][j+2].red && grid[i+2][j+1].red && grid[i+3][j].red) {
+                console.log('red wins');
+                gameOver = true;
+            }
+            else if(grid[i][j+3].black && grid[i+1][j+2].black && grid[i+2][j+1].black && grid[i+3][j].black) {
+                console.log('black wins');
+                gameOver = true;
+            }
+
+        }
+    }
+
+
+
 }
